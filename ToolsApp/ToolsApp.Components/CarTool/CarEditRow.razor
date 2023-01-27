@@ -6,14 +6,20 @@
   <td><input type="text" @bind="@carForm.Color" /></td>
   <td><input type="number" @bind="@carForm.Price" /></td>
   <td>
-    <button type="button">Save</button>
-    <button type="button">Cancel</button>
+    <button type="button" @onclick="saveCar">Save</button>
+    <button type="button" @onclick="@(() => OnCancelCar.InvokeAsync())">Cancel</button>
   </td>
 </tr>
 
 @code {
   [Parameter]
   public ICar Car { get; set; }
+
+  [Parameter]
+  public EventCallback<ICar> OnSaveCar { get; set; }
+
+  [Parameter]
+  public EventCallback OnCancelCar { get; set; }
 
   private CarFormModel carForm;
 
@@ -27,6 +33,19 @@
         Color = Car.Color,
         Price = Car.Price
       };
+  }
+
+  private async Task saveCar()
+  {
+    await OnSaveCar.InvokeAsync(new Car
+      {
+        Id = Car.Id,
+        Make = carForm.Make,
+        Model = carForm.Model,
+        Year = carForm.Year,
+        Color = carForm.Color,
+        Price = carForm.Price,
+      });
   }
 
   class CarFormModel
