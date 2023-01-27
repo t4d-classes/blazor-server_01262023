@@ -11,13 +11,13 @@
     </tr>
   </thead>
   <tbody>
-    @if (!Cars.Any())
+    @if (Cars is null || !Cars.Any())
     {
       <tr colspan="7">No Cars</tr>
     }
     @foreach (var car in Cars)
     {
-      <CarViewRow Car="@car" OnDeleteCar="@OnDeleteCar" />
+      <CarViewRow Car="@car" OnDeleteCar="@deleteCar" />
     }
   </tbody>
 </table>
@@ -28,4 +28,9 @@
 
   [Parameter]
   public EventCallback<int> OnDeleteCar { get; set; }
+
+  public async Task deleteCar(int carId)
+  {
+    await OnDeleteCar.InvokeAsync(carId);
+  }
 }
