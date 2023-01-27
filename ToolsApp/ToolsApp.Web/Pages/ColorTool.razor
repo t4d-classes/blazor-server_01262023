@@ -1,5 +1,6 @@
 ﻿@page "/color-tool"
 
+@using ToolsApp.Components.ColorTool
 
 <!-- static text assigned to the parameter -->
 <ToolHeader HeaderText="Color Tool"></ToolHeader>
@@ -7,13 +8,7 @@
 <!-- razor expression assigned to the parameter -->
 <ToolHeader HeaderText="@headerText"></ToolHeader>
 
-<ul>
-  @foreach(var color in Colors)
-  {
-    <li>@color.Name - @color.HexCode</li>
-  }
-</ul>
-
+<ColorList Colors="@Colors" />
 
 <form>
   <label>

@@ -1,37 +1,10 @@
 ﻿@page "/car-tool"
 
-@using ToolsApp.Core.Interfaces.Models
-@using ToolsApp.Models
+@using ToolsApp.Components.CarTool
 
-<header>
-  <h3>Car Tool</h3>
-</header>
+<ToolHeader HeaderText="Car Tool"></ToolHeader>
 
-<table>
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Make</th>
-      <th>Model</th>
-      <th>Year</th>
-      <th>Color</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    @foreach (var car in Cars)
-    {
-      <tr>
-        <td>@car.Id</td>
-        <td>@car.Make</td>
-        <td>@car.Model</td>
-        <td>@car.Year</td>
-        <td>@car.Color</td>
-        <td>@car.Price</td>
-      </tr>
-    }
-  </tbody>
-</table>
+<CarTable Cars="@Cars" />
 
 <form>
   <label>
