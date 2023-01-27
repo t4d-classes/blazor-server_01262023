@@ -2,32 +2,28 @@
 
 @using ToolsApp.Components.ColorTool
 
+
+@inject IColorsData colorsData
+
 <ToolHeader HeaderText="@colorToolHeader"></ToolHeader>
-<ColorList Colors="@Colors" />
+<ColorList Colors="@colors" />
 <ColorForm ButtonText="Add Color" OnSubmitColor="@AddColor" />
 
 @code {
 
   private string colorToolHeader = "Color Tool";
 
-  
+  private IEnumerable<IColor> colors { get; set; } = new List<IColor>();
 
-  public List<IColor> Colors { get; set; } = new List<IColor>() {
-    new Color() { Id = 1, Name = "red", HexCode = "ff0000" },
-    new Color() { Id = 2, Name = "green", HexCode = "00ff00" },
-    new Color() { Id = 3, Name = "blue", HexCode = "0000ff" },
-  };
-
-  public void AddColor(INewColor newColor)
+  protected override async Task OnInitializedAsync()
   {
-    var color = new Color()
-      {
-        Id = Colors.Any() ? Colors.Max(c => c.Id) + 1 : 1,
-        Name = newColor.Name,
-        HexCode = newColor.HexCode,
-      };
+    colors = await colorsData.All();
+  }
 
-    Colors.Add(color);
+  public async Task AddColor(INewColor newColor)
+  {
+    await colorsData.Append(newColor);
+    colors = await colorsData.All();
   }
 
 }
