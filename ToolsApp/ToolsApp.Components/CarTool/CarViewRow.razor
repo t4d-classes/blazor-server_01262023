@@ -1,17 +1,25 @@
-﻿
-<tr>
+﻿<tr>
   <td>@Car.Id</td>
   <td>@Car.Make</td>
   <td>@Car.Model</td>
   <td>@Car.Year</td>
   <td>@Car.Color</td>
   <td>@Car.Price</td>
-  <td><button type="button" @onclick="deleteCar">Delete</button></td>
+  <td>
+    <button type="button"
+      @onclick="@(async () => await OnEditCar.InvokeAsync(Car.Id))">
+        Edit
+    </button>
+    <button type="button" @onclick="deleteCar">Delete</button>
+  </td>
 </tr>
 
 @code {
   [Parameter]
   public ICar Car { get; set; }
+
+  [Parameter]
+  public EventCallback<int> OnEditCar { get; set; }
 
   [Parameter]
   public EventCallback<int> OnDeleteCar { get; set; }
