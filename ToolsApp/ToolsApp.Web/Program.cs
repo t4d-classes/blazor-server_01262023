@@ -16,7 +16,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 //if (builder.Configuration["ConnectionString"] == "in-memory")
 //{
 builder.Services.AddSingleton<IColorsData, ColorsInMemoryData>();
-//  builder.Services.AddSingleton<ICarsData, CarsInMemoryData>();
+builder.Services.AddSingleton<ICarsData, CarsInMemoryData>();
 //}
 //else
 //{

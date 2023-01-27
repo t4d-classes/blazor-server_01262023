@@ -1,58 +1,56 @@
 ﻿@page "/car-tool"
 
+@inject ICarsData carsData
+
 @using ToolsApp.Components.CarTool
 
 <ToolHeader HeaderText="Car Tool"></ToolHeader>
 
-<CarTable Cars="@Cars" EditCarId="@editCarId"
-          OnSaveCar="@SaveCar" OnCancelCar="@CancelCar"
-          OnEditCar="@EditCar" OnDeleteCar="@DeleteCar" />
+<CarTable Cars="@cars" EditCarId="@editCarId"
+          OnSaveCar="@saveCar" OnCancelCar="@cancelCar"
+          OnEditCar="@editCar" OnDeleteCar="@deleteCar" />
 
-<CarForm ButtonText="Add Car" OnSubmitCar="@AddCar" />
+<CarForm ButtonText="Add Car" OnSubmitCar="@addCar" />
 
 @code {
 
-  public List<ICar> Cars { get; set; } = new() {
-    new Car() { Id = 1, Make="Ford", Model="Fusion Hybrid", Year=2020, Color="Blue", Price=45000 },
-    new Car() { Id = 2, Make="Tesla", Model="S", Year=2022, Color="Red", Price=115000 },
-  };
+  private IEnumerable<ICar> cars { get; set; } = new List<ICar>();
 
   private int editCarId { get; set; } = -1;
 
-  public void EditCar(int carId)
+  protected override async Task OnInitializedAsync()
+  {
+    cars = await carsData.All();
+  }
+
+  private void editCar(int carId)
   {
     editCarId = carId;
   }
 
-  public void CancelCar()
+  private void cancelCar()
   {
     editCarId = -1;
   }
 
-  public void AddCar(INewCar newCar)
+  private async Task addCar(INewCar newCar)
   {
-    Cars.Add(new Car()
-      {
-        Id = Cars.Any() ? Cars.Max(c => c.Id) + 1 : 1,
-        Make = newCar.Make,
-        Model = newCar.Model,
-        Year = newCar.Year,
-        Color = newCar.Color,
-        Price = newCar.Price,
-      });
+    await carsData.Append(newCar);
+    cars = await carsData.All();
     editCarId = -1;
   }
 
-  public void SaveCar(ICar car)
+  private async Task saveCar(ICar car)
   {
-    var carIndex = Cars.FindIndex(c => c.Id == car.Id);
-    Cars[carIndex] = car;
+    await carsData.Replace(car);
+    cars = await carsData.All();
     editCarId = -1;
   }
 
-  public void DeleteCar(int carId)
+  private async Task deleteCar(int carId)
   {
-    Cars.Remove(Cars.Find(car => car.Id == carId));
+    await carsData.Remove(carId);
+    cars = await carsData.All();
     editCarId = -1;
   }
 }
