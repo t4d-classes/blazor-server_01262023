@@ -1,11 +1,11 @@
 ﻿@page "/color-tool"
 
-@using ToolsApp.Core.Interfaces.Models
-@using ToolsApp.Models
 
-<header>
-  <h3>Color Tool</h3>
-</header>
+<!-- static text assigned to the parameter -->
+<ToolHeader HeaderText="Color Tool"></ToolHeader>
+
+<!-- razor expression assigned to the parameter -->
+<ToolHeader HeaderText="@headerText"></ToolHeader>
 
 <ul>
   @foreach(var color in Colors)
@@ -13,6 +13,7 @@
     <li>@color.Name - @color.HexCode</li>
   }
 </ul>
+
 
 <form>
   <label>
@@ -27,6 +28,8 @@
 </form>
 
 @code {
+
+  private string headerText = "Color Tool";
 
   private ColorFormModel colorForm = new();
 
