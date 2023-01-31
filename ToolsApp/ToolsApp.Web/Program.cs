@@ -28,8 +28,7 @@ if (builder.Configuration["ConnectionString"] == "in-memory")
 else
 {
   builder.Services.AddScoped<IColorsData, ColorsSqlDatabaseData>();
-  //builder.Services.AddScoped<ICarsData, CarsSqlDatabaseData>();
-  builder.Services.AddSingleton<ICarsData, CarsInMemoryData>();
+  builder.Services.AddScoped<ICarsData, CarsSqlDatabaseData>();
 }
 
 var app = builder.Build();

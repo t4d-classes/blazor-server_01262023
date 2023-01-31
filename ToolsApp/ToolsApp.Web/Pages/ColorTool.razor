@@ -6,7 +6,7 @@
 @inject IColorsData colorsData
 
 <ToolHeader HeaderText="@colorToolHeader"></ToolHeader>
-<ColorList Colors="@colors" />
+<ColorList Colors="@colors" OnDeleteColor="@RemoveColor" />
 <ColorForm ButtonText="Add Color" OnSubmitColor="@AddColor" />
 
 @code {
@@ -25,5 +25,12 @@
     await colorsData.Append(newColor);
     colors = await colorsData.All();
   }
+
+  public async Task RemoveColor(int colorId)
+  {
+    await colorsData.Remove(colorId);
+    colors = await colorsData.All();
+  }
+
 
 }
