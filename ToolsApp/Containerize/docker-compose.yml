@@ -1,0 +1,27 @@
+services:
+  sqledge:
+    build:
+      context: .
+      dockerfile: ./Containerize/SqlEdgeDockerfile
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: 1
+      MSSQL_SA_PASSWORD: sqlDbp@ss
+      MSSQL_PID: Developer
+      MSSQL_USER: SA
+    # volumes:
+    #   - sqledge:/var/opt/mssql/data
+  toolsapp:
+    build:
+      context: .
+      dockerfile: ./Containerize/ToolsAppDockerfile
+    ports:
+      - "8080:80"
+      - "8443:443"
+    environment:
+      CONNECTION_STRING: "Data Source=sqledge,1433;Initial Catalog=App;User Id=sa;Password=sqlDbp@ss"
+    links:
+      - "sqledge"
+# volumes:
+#   sqledge:

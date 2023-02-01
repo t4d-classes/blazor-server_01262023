@@ -1,0 +1,40 @@
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+
+WORKDIR /src/ToolsApp.Components
+COPY ["ToolsApp.Components/ToolsApp.Components.csproj", "."]
+RUN dotnet restore "ToolsApp.Components.csproj"
+
+WORKDIR /src/ToolsApp.Core
+COPY ["ToolsApp.Core/ToolsApp.Core.csproj", "."]
+RUN dotnet restore "ToolsApp.Core.csproj"
+
+WORKDIR /src/ToolsApp.Data
+COPY ["ToolsApp.Data/ToolsApp.Data.csproj", "."]
+RUN dotnet restore "ToolsApp.Data.csproj"
+
+WORKDIR /src/ToolsApp.Models
+COPY ["ToolsApp.Models/ToolsApp.Models.csproj", "."]
+RUN dotnet restore "ToolsApp.Models.csproj"
+
+WORKDIR /src/ToolsApp.Web
+COPY ["ToolsApp.Web/ToolsApp.Web.csproj", "."]
+RUN dotnet restore "ToolsApp.Web.csproj"
+
+WORKDIR /src
+COPY . .
+
+WORKDIR /src/ToolsApp.Web
+RUN dotnet build "ToolsApp.Web.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "ToolsApp.Web.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "ToolsApp.Web.dll"]

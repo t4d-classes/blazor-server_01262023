@@ -23,6 +23,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToolsApp.Web", "ToolsApp.We
 		{88396AF3-8FD2-4996-B49B-8D517167359B} = {88396AF3-8FD2-4996-B49B-8D517167359B}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Containerize", "Containerize", "{BF948327-90D4-437A-962E-4F8B4E468528}"
+	ProjectSection(SolutionItems) = preProject
+		Containerize\app.sql = Containerize\app.sql
+		Containerize\docker-compose.yml = Containerize\docker-compose.yml
+		Containerize\entrypoint.sh = Containerize\entrypoint.sh
+		Containerize\init-data.sh = Containerize\init-data.sh
+		Containerize\NOTES.md = Containerize\NOTES.md
+		Containerize\SqlEdgeDockerfile = Containerize\SqlEdgeDockerfile
+		Containerize\ToolsAppDockerfile = Containerize\ToolsAppDockerfile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

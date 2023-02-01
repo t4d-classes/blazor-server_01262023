@@ -1,0 +1,16 @@
+FROM mcr.microsoft.com/azure-sql-edge
+
+USER root
+
+WORKDIR /app
+COPY ./Containerize/entrypoint.sh /app
+COPY ./Containerize/init-data.sh /app
+COPY ./Containerize/app.sql /app
+
+RUN chmod +x /app/init-data.sh
+
+EXPOSE 1433
+
+USER mssql
+
+ENTRYPOINT /bin/bash ./entrypoint.sh

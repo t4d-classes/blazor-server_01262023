@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components.Web;
 
 using Microsoft.EntityFrameworkCore;
 
-
 using ToolsApp.Core.Interfaces.Data;
 using ToolsApp.Data;
 using ToolsApp.Web.Data;
@@ -12,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ToolsAppDbContext>(options =>
 {
-  options.UseSqlServer(builder.Configuration["ConnectionString"]);
+  options.UseSqlServer(builder.Configuration["CONNECTION_STRING"]);
 });
 
 // Add services to the container.
@@ -20,7 +19,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 
-if (builder.Configuration["ConnectionString"] == "in-memory")
+if (builder.Configuration["CONNECTION_STRING"] == "in-memory")
 {
   builder.Services.AddSingleton<IColorsData, ColorsInMemoryData>();
   builder.Services.AddSingleton<ICarsData, CarsInMemoryData>();
