@@ -9,10 +9,11 @@ using ToolsApp.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ToolsAppDbContext>(options =>
-{
-  options.UseSqlServer(builder.Configuration["CONNECTION_STRING"]);
-});
+//builder.Services.AddDbContext<ToolsAppDbContext>(options =>
+//{
+//  options.UseSqlServer(builder.Configuration["CONNECTION_STRING"]);
+//});
+builder.Services.AddSingleton<ToolsAppDapperContext>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -26,8 +27,10 @@ if (builder.Configuration["CONNECTION_STRING"] == "in-memory")
 }
 else
 {
-  builder.Services.AddScoped<IColorsData, ColorsSqlDatabaseData>();
-  builder.Services.AddScoped<ICarsData, CarsSqlDatabaseData>();
+  //builder.Services.AddScoped<IColorsData, ColorsSqlDatabaseData>();
+  //builder.Services.AddScoped<ICarsData, CarsSqlDatabaseData>();
+  builder.Services.AddSingleton<IColorsData, ColorsDapperData>();
+  builder.Services.AddSingleton<ICarsData, CarsDapperData>();
 }
 
 var app = builder.Build();
