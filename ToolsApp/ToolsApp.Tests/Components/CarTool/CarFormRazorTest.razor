@@ -42,9 +42,9 @@
     priceInputElement.Change(car.Price.ToString());
 
 
-    var buttonElement = cut.Find("button");
+    var formElement = cut.Find("form");
 
-    buttonElement.Click();
+    formElement.Submit();
 
     // Assert
     Mock.Get(submitCarFormActionMock).Verify(
