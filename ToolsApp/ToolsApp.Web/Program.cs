@@ -1,19 +1,37 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+
+
 
 using Microsoft.EntityFrameworkCore;
 
 using ToolsApp.Core.Interfaces.Data;
 using ToolsApp.Data;
 using ToolsApp.Web.Data;
+using ToolsApp.Web.Areas.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ToolsAppDbContext>(options =>
 {
-  options.UseSqlServer(builder.Configuration["ConnectionString"]);
+  options.UseSqlServer(
+    builder.Configuration["ConnectionString"],
+    b => b.MigrationsAssembly("ToolsApp.Web")
+  );
 });
 //builder.Services.AddSingleton<ToolsAppDapperContext>();
+
+
+var connectionString = builder.Configuration["ConnectionString"];
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(connectionString));
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ToolsAppDbContext>();
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -49,6 +67,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 

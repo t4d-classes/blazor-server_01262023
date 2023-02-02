@@ -4,13 +4,22 @@
 
 @using ToolsApp.Components.CarTool
 
-<ToolHeader HeaderText="Car Tool"></ToolHeader>
+<AuthorizeView>
+  <Authorized>
+    <ToolHeader HeaderText="Car Tool"></ToolHeader>
 
-<CarTable Cars="@cars" EditCarId="@editCarId"
-          OnSaveCar="@saveCar" OnCancelCar="@cancelCar"
-          OnEditCar="@editCar" OnDeleteCar="@deleteCar" />
+    <CarTable Cars="@cars" EditCarId="@editCarId"
+              OnSaveCar="@saveCar" OnCancelCar="@cancelCar"
+              OnEditCar="@editCar" OnDeleteCar="@deleteCar" />
 
-<CarForm ButtonText="Add Car" OnSubmitCar="@addCar" />
+    <CarForm ButtonText="Add Car" OnSubmitCar="@addCar" />
+
+  </Authorized>
+  <NotAuthorized>
+    Please login.
+  </NotAuthorized>
+</AuthorizeView>
+
 
 @code {
 
