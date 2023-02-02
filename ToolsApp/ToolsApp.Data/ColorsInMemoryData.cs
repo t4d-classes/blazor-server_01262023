@@ -5,6 +5,7 @@ using ToolsApp.Models;
 using ColorModel = ToolsApp.Models.Color;
 using ColorDataModel = ToolsApp.Data.Models.Color;
 using AutoMapper;
+using Microsoft.JSInterop;
 
 namespace ToolsApp.Data
 {
@@ -29,6 +30,7 @@ namespace ToolsApp.Data
       _mapper = mapperConfig.CreateMapper();
     }
 
+    [JSInvokable]
     public Task<IEnumerable<IColor>> All()
     {
       return Task.FromResult(

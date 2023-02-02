@@ -12,6 +12,7 @@ using ToolsApp.Core.Interfaces.Data;
 using ToolsApp.Data;
 using ToolsApp.Web.Data;
 using ToolsApp.Web.Areas.Identity;
+using ToolsApp.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<ScreenBlocker>();
+
 
 if (builder.Configuration["CONNECTION_STRING"] == "in-memory")
 {

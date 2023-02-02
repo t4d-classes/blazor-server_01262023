@@ -10,6 +10,7 @@ using ToolsApp.Core.Interfaces.Models;
 using ColorModel = ToolsApp.Models.Color;
 using ColorDataModel = ToolsApp.Data.Models.Color;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.JSInterop;
 
 namespace ToolsApp.Data
 {
@@ -31,7 +32,7 @@ namespace ToolsApp.Data
       _mapper = mapperConfig.CreateMapper();
     }
 
-
+    [JSInvokable]
     public async Task<IEnumerable<IColor>> All()
     {
       return await _toolsAppDbContext

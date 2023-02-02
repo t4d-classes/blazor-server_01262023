@@ -7,6 +7,8 @@ using ToolsApp.Core.Interfaces.Models;
 using ColorModel = ToolsApp.Models.Color;
 using ColorDataModel = ToolsApp.Data.Models.Color;
 
+using Microsoft.JSInterop;
+
 namespace ToolsApp.Data;
 
 public class ColorsDapperData : IColorsData
@@ -23,6 +25,7 @@ public class ColorsDapperData : IColorsData
     _mapper = mapperConfig.CreateMapper();
   }
 
+  [JSInvokable]
   public async Task<IEnumerable<IColor>> All()
   {
     using var con = _dataContext.CreateConnection();
